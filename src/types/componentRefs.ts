@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { Mesh } from 'three';
 
-export type componentRefProps = {
+export type componentRefs = {
   lightSourceMeshRef?: RefObject<Mesh>;
 };

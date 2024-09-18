@@ -1,13 +1,14 @@
 import { Canvas } from '@react-three/fiber';
-import SolarSystem from './components/canvas/SolarSystem';
+import SolarSystem from './components/threeJs/SolarSystem';
 import { Suspense } from 'react';
 import useStore from './hooks/useStore';
 
 const App = () => {
+  // Stores
   const quality = useStore((state) => state.userSettings.quality);
   const showDebugMode = useStore((state) => state.userSettings.showDebugMode);
-  const updateUserSetting = useStore((state) => state.updateUserSetting);
 
+  // Pixel ratio
   const dpr =
     quality === 'High'
       ? window.devicePixelRatio
@@ -19,22 +20,8 @@ const App = () => {
     <>
       <header id="header">
         <h1>
-          Quality {quality}, Debug {showDebugMode ? 'On' : 'Off'}
+          {quality}, {showDebugMode.toString()},
         </h1>
-        <button onClick={() => updateUserSetting('quality', 'Low')}>
-          Low Quality
-        </button>
-        <button onClick={() => updateUserSetting('quality', 'Medium')}>
-          Medium Quality
-        </button>
-        <button onClick={() => updateUserSetting('quality', 'High')}>
-          High Quality
-        </button>
-        <button
-          onClick={() => updateUserSetting('showDebugMode', !showDebugMode)}
-        >
-          Button
-        </button>
       </header>
       <div id="canvas-scene">
         <Canvas

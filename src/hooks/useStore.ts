@@ -1,60 +1,60 @@
 import { create } from 'zustand';
-import {
-  applicationSettingsProps,
-  APPLICATION_SETTINGS_DEFAULT,
-} from '../constants/applicationSettingsProps';
-import {
-  userSettingsProps,
-  USER_SETTINGS_DEFAULT,
-} from '../constants/userSettingsProps';
-import { componentRefProps } from '../constants/componentRefProps';
 import { persist } from 'zustand/middleware';
+import { appSettings } from '../types/appSettings';
+import { userSettings } from '../types/userSettings';
+import { componentRefs } from '../types/componentRefs';
+import {
+  APP_SETTINGS_DEFAULT,
+  USER_SETTINGS_DEFAULT,
+} from '../constants/stores';
 
-type StoreProps = {
-  applicationSettings: applicationSettingsProps;
-  userSettings: userSettingsProps;
-  componentRefs: componentRefProps;
-  updateAppSetting: <K extends keyof applicationSettingsProps>(
+type StoreState = {
+  // Constants
+  applicationSettings: appSettings;
+  userSettings: userSettings;
+  componentRefs: componentRefs;
+  // Functions
+  updateAppSetting: <K extends keyof appSettings>(
     key: K,
-    value: applicationSettingsProps[K]
+    value: appSettings[K]
   ) => void;
-  updateUserSetting: <K extends keyof userSettingsProps>(
+  updateUserSetting: <K extends keyof userSettings>(
     key: K,
-    value: userSettingsProps[K]
+    value: userSettings[K]
   ) => void;
-  updateRefSetting: <K extends keyof componentRefProps>(
+  updateRefSetting: <K extends keyof componentRefs>(
     key: K,
-    value: componentRefProps[K]
+    value: componentRefs[K]
   ) => void;
   resetUserSettings: () => void;
 };
 
-const useStore = create<StoreProps>()(
+const useStore = create<StoreState>()(
   persist(
     (set) => ({
-      applicationSettings: APPLICATION_SETTINGS_DEFAULT,
+      applicationSettings: APP_SETTINGS_DEFAULT,
       userSettings: USER_SETTINGS_DEFAULT,
       componentRefs: {},
 
-      updateAppSetting: <K extends keyof applicationSettingsProps>(
+      updateAppSetting: <K extends keyof appSettings>(
         key: K,
-        value: applicationSettingsProps[K]
+        value: appSettings[K]
       ) =>
         set((state) => ({
           applicationSettings: { ...state.applicationSettings, [key]: value },
         })),
 
-      updateUserSetting: <K extends keyof userSettingsProps>(
+      updateUserSetting: <K extends keyof userSettings>(
         key: K,
-        value: userSettingsProps[K]
+        value: userSettings[K]
       ) =>
         set((state) => ({
           userSettings: { ...state.userSettings, [key]: value },
         })),
 
-      updateRefSetting: <K extends keyof componentRefProps>(
+      updateRefSetting: <K extends keyof componentRefs>(
         key: K,
-        value: componentRefProps[K]
+        value: componentRefs[K]
       ) =>
         set((state) => ({
           componentRefs: { ...state.componentRefs, [key]: value },
@@ -67,7 +67,7 @@ const useStore = create<StoreProps>()(
         })),
     }),
     {
-      name: 'solar-system-storage',
+      name: 'solar-system-storage', // LocalStorage Key
       partialize: (state) => ({ userSettings: state.userSettings }),
     }
   )

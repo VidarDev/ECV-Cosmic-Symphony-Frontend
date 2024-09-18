@@ -3,7 +3,7 @@ import {
   GodRays,
   SelectiveBloom,
 } from '@react-three/postprocessing';
-import useStore from '../../hooks/useStore';
+import useStore from '../../../hooks/useStore';
 
 const PostProcessingEffects = () => {
   // Stores
