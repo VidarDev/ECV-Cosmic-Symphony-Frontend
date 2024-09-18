@@ -1,22 +1,23 @@
 import { Canvas } from '@react-three/fiber';
-import Scene from '../components/Scene';
+import SolarSystem from './components/SolarSystem';
 import { Suspense } from 'react';
+import Providers from './Providers';
 
-const Index = () => {
+const App = () => {
   return (
-    <>
+    <Providers>
       <header id="header">
         <h1>Systeme solaire</h1>
       </header>
       <div id="canvas-scene">
-        <Canvas camera={{ position: [0, 2.5, 5], fov: 35 }}>
+        <Canvas>
           <Suspense fallback={null}>
-            <Scene />
+            <SolarSystem />
           </Suspense>
         </Canvas>
       </div>
-    </>
+    </Providers>
   );
 };
 
-export default Index;
+export default App;
