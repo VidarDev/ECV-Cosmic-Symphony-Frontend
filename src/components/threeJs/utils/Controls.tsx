@@ -3,32 +3,32 @@ import useStore from '../../../hooks/useStore';
 
 const Controls: React.FC = () => {
   // Stores
-  const quality = useStore((state) => state.userSettings.quality);
-  const showDebugMode = useStore((state) => state.userSettings.showDebugMode);
+  const userSettings = useStore((state) => state.userSettings);
   const updateUserSetting = useStore((state) => state.updateUserSetting);
+  const resetUserSettings = useStore((state) => state.resetUserSettings);
 
   // GUI
   useControls({
     quality: {
-      value: quality,
+      value: userSettings.resolutionQuality,
       options: {
         Low: 'Low',
         Medium: 'Medium',
         High: 'High',
       },
-      onChange: (value) => updateUserSetting('quality', value),
+      onChange: (value) => updateUserSetting('resolutionQuality', value),
     },
-    debug: {
-      value: showDebugMode,
+    debugMode: {
+      value: userSettings.showDebugMode,
       onChange: (value) => updateUserSetting('showDebugMode', value),
     },
     reset: button(() => {
-      console.log('hello');
+      resetUserSettings();
     }),
   });
 
-  useControls('Planet', {
-    Sun: button(() => {
+  useControls('Celestials Objects', {
+    reset: button(() => {
       console.log('Sun');
     }),
   });

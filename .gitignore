@@ -27,8 +27,4 @@ dist-ssr
 .idea
 .env
 
-src/constants/planets.json
-src/constants/sun.json
 public/textures/
-public/skybox/
-public/normalMaps/

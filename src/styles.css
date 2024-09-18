@@ -37,6 +37,10 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   margin: 0;
+  font-family: 'Space Grotesk', system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Set shorter line heights on headings and interactive elements */
@@ -101,7 +105,7 @@ textarea:not([rows]) {
     z-index: 1;
 
     h1 {
-      color: white;
+      color: #00d6fc;
     }
   }
 

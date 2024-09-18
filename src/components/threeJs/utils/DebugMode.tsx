@@ -1,15 +1,16 @@
 import { Perf } from 'r3f-perf';
 import useStore from '../../../hooks/useStore';
+import { SOLAR_SYSTEM_SCENE } from '../../../constants/scenes';
 
 const DebugMode: React.FC = () => {
   // Stores
-  const showDebugMode = useStore((state) => state.userSettings.showDebugMode);
+  const userSettings = useStore((state) => state.userSettings);
 
-  if (showDebugMode) {
+  if (userSettings.showDebugMode) {
     return (
       <>
         <Perf />
-        <axesHelper args={[100]} />
+        <axesHelper args={[SOLAR_SYSTEM_SCENE.CAMERA_MAX_DISTANCE]} />
       </>
     );
   }

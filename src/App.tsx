@@ -5,14 +5,13 @@ import useStore from './hooks/useStore';
 
 const App = () => {
   // Stores
-  const quality = useStore((state) => state.userSettings.quality);
-  const showDebugMode = useStore((state) => state.userSettings.showDebugMode);
+  const userSettings = useStore((state) => state.userSettings);
 
   // Pixel ratio
   const dpr =
-    quality === 'High'
+    userSettings.resolutionQuality === 'High'
       ? window.devicePixelRatio
-      : quality === 'Medium'
+      : userSettings.resolutionQuality === 'Medium'
         ? window.devicePixelRatio / 1.5
         : window.devicePixelRatio / 2.5;
 
@@ -20,7 +19,8 @@ const App = () => {
     <>
       <header id="header">
         <h1>
-          {quality}, {showDebugMode.toString()},
+          {userSettings.resolutionQuality},{' '}
+          {userSettings.showDebugMode.toString()}, {userSettings.focusedObject},
         </h1>
       </header>
       <div id="canvas-scene">

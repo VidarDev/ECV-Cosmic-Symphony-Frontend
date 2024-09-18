@@ -5,38 +5,41 @@ import {
 } from '@react-three/postprocessing';
 import useStore from '../../../hooks/useStore';
 
-const PostProcessingEffects = () => {
+const PostProcessingEffects: React.FC = () => {
   // Stores
-  const quality = useStore((state) => state.userSettings.quality);
+  const userSettings = useStore((state) => state.userSettings);
+  const componentRefs = useStore((state) => state.componentRefs);
 
-  if (quality === 'Low') {
-    return null;
+  if (!componentRefs.lightSourceMeshRef?.current) return null;
+
+  switch (userSettings.resolutionQuality) {
+    case 'High':
+      return (
+        <EffectComposer>
+          <GodRays
+            blur
+            decay={0.9}
+            samples={120}
+            density={0.96}
+            sun={componentRefs.lightSourceMeshRef.current}
+          />
+        </EffectComposer>
+      );
+
+    case 'Medium':
+      return (
+        <EffectComposer>
+          <SelectiveBloom
+            selection={[componentRefs.lightSourceMeshRef.current]}
+            luminanceThreshold={0}
+            luminanceSmoothing={0.8}
+          />
+        </EffectComposer>
+      );
+
+    default:
+      return null;
   }
-
-  return null;
-
-  return (
-    <EffectComposer>
-      {quality === 'High' ? (
-        <GodRays
-          blur={true}
-          decay={0.9}
-          samples={120}
-          density={0.98}
-          // sun={lightSourceMeshRef.current}
-        />
-      ) : quality === 'Medium' ? (
-        <SelectiveBloom
-          // selection={[lightSourceMeshRef.current]}
-          luminanceThreshold={0}
-          luminanceSmoothing={0.9}
-          height={300}
-        />
-      ) : (
-        <></>
-      )}
-    </EffectComposer>
-  );
 };
 
 export default PostProcessingEffects;

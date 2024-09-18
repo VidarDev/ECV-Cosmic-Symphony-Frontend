@@ -10,7 +10,7 @@ import {
 
 type StoreState = {
   // Constants
-  applicationSettings: appSettings;
+  appSettings: appSettings;
   userSettings: userSettings;
   componentRefs: componentRefs;
   // Functions
@@ -32,7 +32,7 @@ type StoreState = {
 const useStore = create<StoreState>()(
   persist(
     (set) => ({
-      applicationSettings: APP_SETTINGS_DEFAULT,
+      appSettings: APP_SETTINGS_DEFAULT,
       userSettings: USER_SETTINGS_DEFAULT,
       componentRefs: {},
 
@@ -41,7 +41,7 @@ const useStore = create<StoreState>()(
         value: appSettings[K]
       ) =>
         set((state) => ({
-          applicationSettings: { ...state.applicationSettings, [key]: value },
+          appSettings: { ...state.appSettings, [key]: value },
         })),
 
       updateUserSetting: <K extends keyof userSettings>(
@@ -62,7 +62,7 @@ const useStore = create<StoreState>()(
 
       resetUserSettings: () =>
         set((state) => ({
-          appSettings: { ...state.applicationSettings, focusingBody: true },
+          appSettings: { ...state.appSettings, focusingObject: true },
           userSettings: USER_SETTINGS_DEFAULT,
         })),
     }),
