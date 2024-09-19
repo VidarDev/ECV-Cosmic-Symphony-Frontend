@@ -4,7 +4,10 @@ import { Canvas } from '@react-three/fiber';
 import SolarSystem from '@/components/threeJs/SolarSystem';
 import { Suspense, useEffect, useState } from 'react';
 import useStore from '@/hooks/useStore';
-import Header from './components/overlay/Header';
+import Header from '@/components/overlay/Header';
+import ScaleInfo from '@/components/overlay/ScaleInfo';
+import ActionsPanels from '@/components/overlay/ActionsPanels';
+import QualitySetting from '@/components/overlay/qualitySetting';
 
 const App = () => {
   // Stores
@@ -62,6 +65,9 @@ const App = () => {
           >
             <SolarSystem />
           </Canvas>
+          <ScaleInfo />
+          <ActionsPanels />
+          <QualitySetting />
         </Suspense>
       </div>
     </>

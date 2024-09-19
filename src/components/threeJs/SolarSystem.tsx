@@ -1,7 +1,6 @@
 import useStore from '@/hooks/useStore';
 import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
 import PostProcessingEffects from '@/components/threeJs/utils/PostProcessingEffects';
-import Controls from '@/components/threeJs/utils/Controls';
 import CelestialObject from '@/components/threeJs/CelestialObject';
 import * as THREE from 'three';
 import { useRef } from 'react';
@@ -12,7 +11,7 @@ import {
   Environment,
   OrbitControls,
 } from '@react-three/drei';
-import { Perf } from 'r3f-perf';
+import DevMode from '@/components/threeJs/utils/DevMode';
 
 const SolarSystem: React.FC = () => {
   // Stores
@@ -77,8 +76,7 @@ const SolarSystem: React.FC = () => {
         controlsRef={controlsRef}
       />
       {/* Utils */}
-      {userSettings.showDebugMode && <Perf />}
-      <Controls />
+      {userSettings.showDebugMode && <DevMode />}
       <PostProcessingEffects />
     </>
   );
