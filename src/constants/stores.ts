@@ -1,6 +1,6 @@
-import { SolarSytemData } from '../data/CelestialsData';
-import { appSettings } from '../types/appSettings';
-import { userSettings } from '../types/userSettings';
+import { SolarSytemData } from '@/data/CelestialsData';
+import { appSettings } from '@/types/appSettings';
+import { userSettings } from '@/types/userSettings';
 
 export const APP_SETTINGS_DEFAULT: appSettings = {
   timeStepModifier: 0,

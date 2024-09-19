@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
-import SolarSystem from './components/threeJs/SolarSystem';
+import SolarSystem from '@/components/threeJs/SolarSystem';
 import { Suspense } from 'react';
-import useStore from './hooks/useStore';
+import useStore from '@/hooks/useStore';
 
 const App = () => {
   // Stores

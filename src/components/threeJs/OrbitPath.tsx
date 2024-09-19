@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { BufferGeometry, Float32BufferAttribute } from 'three';
-import { SOLAR_SYSTEM_SCENE } from '../../constants/scenes';
+import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
 
 type OrbitPathProps = {
   color: number;
@@ -41,7 +41,7 @@ const OrbitPath: React.FC<OrbitPathProps> = ({
       'color',
       new Float32BufferAttribute(colors, 4)
     );
-  }, [color, radius]);
+  }, [radius]);
 
   return (
     <line>

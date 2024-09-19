@@ -1,4 +1,4 @@
-import { degToRad } from '../utils/normalizer';
+import { degToRad } from '@/utils/normalizer';
 
 export const SOLAR_SYSTEM_SCENE = {
   UNIVERS_TILT: degToRad(64),

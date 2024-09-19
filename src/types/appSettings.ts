@@ -1,4 +1,4 @@
-import { celestialObject } from './celestialObject';
+import { celestialObject } from '@/types/celestialObject';
 
 export type appSettings = {
   timeStepModifier: number;

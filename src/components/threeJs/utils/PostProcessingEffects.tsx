@@ -1,49 +1,72 @@
+import React, { useMemo, useCallback } from 'react';
 import {
   EffectComposer,
   GodRays,
   SelectiveBloom,
 } from '@react-three/postprocessing';
-import useStore from '../../../hooks/useStore';
+import useStore from '@/hooks/useStore';
+import { componentRefs } from '@/types/componentRefs';
+import { BlendFunction } from 'postprocessing';
 
-const PostProcessingEffects: React.FC = () => {
-  // Stores
+type PostProcessingEffectsProps = componentRefs;
+
+const PostProcessingEffects: React.FC<PostProcessingEffectsProps> = () => {
   const userSettings = useStore((state) => state.userSettings);
   const componentRefs = useStore((state) => state.componentRefs);
 
   const lightSourceMesh = componentRefs.lightSourceMeshRef?.current;
-  if (!lightSourceMesh) return null;
 
-  const renderHighQuality = () => (
-    <EffectComposer>
-      <GodRays
-        blur={true}
-        decay={0.8}
-        samples={30}
-        density={0.99}
-        sun={lightSourceMesh}
-      />
-    </EffectComposer>
+  const HighQualityEffects = useCallback(
+    () =>
+      lightSourceMesh ? (
+        <EffectComposer>
+          <GodRays
+            sun={lightSourceMesh as unknown as React.ReactElement}
+            blendFunction={BlendFunction.SCREEN}
+            samples={30}
+            density={0.97}
+            decay={0.97}
+            weight={0.6}
+            exposure={0.3}
+            clampMax={1}
+            blur={true}
+          />
+        </EffectComposer>
+      ) : null,
+    [lightSourceMesh]
   );
 
-  const renderMediumQuality = () => (
-    <EffectComposer>
-      <SelectiveBloom
-        selection={[lightSourceMesh]}
-        luminanceThreshold={0}
-        luminanceSmoothing={0.9}
-        height={400}
-      />
-    </EffectComposer>
+  const MediumQualityEffects = useCallback(
+    () =>
+      lightSourceMesh ? (
+        <EffectComposer>
+          <SelectiveBloom
+            lights={[lightSourceMesh]} // Utilisez lights au lieu de selection
+            intensity={1.5}
+            luminanceThreshold={0.1}
+            luminanceSmoothing={0.3}
+          />
+        </EffectComposer>
+      ) : null,
+    [lightSourceMesh]
   );
 
-  switch (userSettings.resolutionQuality) {
-    case 'High':
-      return renderHighQuality();
-    case 'Medium':
-      return renderMediumQuality();
-    default:
-      return null;
-  }
+  const effects = useMemo(() => {
+    switch (userSettings.resolutionQuality) {
+      case 'High':
+        return <HighQualityEffects />;
+      case 'Medium':
+        return <MediumQualityEffects />;
+      default:
+        return null;
+    }
+  }, [
+    userSettings.resolutionQuality,
+    HighQualityEffects,
+    MediumQualityEffects,
+  ]);
+
+  return effects;
 };
 
 export default PostProcessingEffects;

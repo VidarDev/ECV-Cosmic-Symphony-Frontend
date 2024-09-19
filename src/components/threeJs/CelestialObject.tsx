@@ -12,9 +12,9 @@ import {
   RingGeometry,
 } from 'three';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import OrbitPath from './OrbitPath';
-import { celestialObject } from '../../types/celestialObject';
-import useStore from '../../hooks/useStore';
+import OrbitPath from '@/components/threeJs/OrbitPath';
+import { celestialObject } from '@/types/celestialObject';
+import useStore from '@/hooks/useStore';
 import * as THREE from 'three';
 
 type Props = {
@@ -75,11 +75,11 @@ const CelestialObject: React.FC<Props> = ({
 
   useEffect(() => {
     updateComponentRef('lightSourceMeshRef', bodyMeshRef);
-  }, [props.isStar, updateComponentRef]);
+  }, [props.isStar]);
 
   useEffect(() => {
     updateAppSetting('focusingObject', true);
-  }, [updateAppSetting, userSettings.realisticScale]);
+  }, [userSettings.realisticScale]);
 
   useEffect(() => {
     bodyFocusVectorRef.current.set(
@@ -113,7 +113,7 @@ const CelestialObject: React.FC<Props> = ({
     if (directionalLightRef.current) {
       directionalLightRef.current.shadow.camera.far = 6000000000; // approximately the farthest real orbit radius
     }
-  }, [userSettings.realisticScale, pointLightRef, directionalLightRef]);
+  }, [userSettings.realisticScale]);
 
   useFrame(() => {
     bodyRef.current.getWorldPosition(currentBodyPositionVectorRef.current);
@@ -189,8 +189,8 @@ const CelestialObject: React.FC<Props> = ({
                 />
                 <directionalLight
                   ref={directionalLightRef}
-                  visible={!userSettings.realisticScale}
-                  color={props.color}
+                  visible={userSettings.realisticScale}
+                  color={0xffffff}
                   intensity={2}
                   castShadow
                 />
@@ -198,7 +198,7 @@ const CelestialObject: React.FC<Props> = ({
             )}
             {userSettings.showLabels && (
               <Html
-                position={[0, props.radius * 1.8, 0]}
+                position={[0, props.radius * 1.5, 0]}
                 center
                 wrapperClass="canvas-object"
               >
@@ -220,7 +220,7 @@ const CelestialObject: React.FC<Props> = ({
                 }}
               >
                 {userSettings.showDebugMode && (
-                  <axesHelper args={[props.radius * 1.6]} />
+                  <axesHelper args={[props.radius * 2]} />
                 )}
                 <mesh
                   ref={bodyMeshRef}
