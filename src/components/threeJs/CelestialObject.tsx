@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useRef, useState, MutableRefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { MutableRefObject, useEffect, useRef } from 'react';
 import { Html, useTexture } from '@react-three/drei';
 import {
   Mesh,
@@ -16,6 +15,7 @@ import OrbitPath from '@/components/threeJs/OrbitPath';
 import { celestialObject } from '@/types/celestialObject';
 import useStore from '@/hooks/useStore';
 import * as THREE from 'three';
+import RandomMelodyPlayer from '../tone/MusicMaker';
 
 type Props = {
   cameraRef: MutableRefObject<THREE.PerspectiveCamera>;
@@ -32,9 +32,7 @@ const CelestialObject: React.FC<Props> = ({
   const appSettings = useStore((state) => state.appSettings);
   const updateUserSetting = useStore((state) => state.updateUserSetting);
   const updateAppSetting = useStore((state) => state.updateAppSetting);
-  const updateComponentRef = useStore(
-    (state) => state.updateComponentRefSetting
-  );
+  const updateComponentRef = useStore((state) => state.updateComponentRefSetting);
 
   // Constants
   const divisionQuality = userSettings.resolutionQuality === 'High' ? 32 : 16;
@@ -56,11 +54,37 @@ const CelestialObject: React.FC<Props> = ({
   const nextBodyPositionVectorRef = useRef<Vector3>(new Vector3());
   const bodyFocusVectorRef = useRef<Vector3>(new Vector3());
 
+  // State
+  const [fetchedData, setFetchedData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+
   const focusObject = () => {
     if (userSettings.focusedObject !== props.name) {
       updateUserSetting('focusedObject', props.name);
       updateAppSetting('focusingObject', true);
+      fetchCelestialData();
     }
+  };
+
+  const fetchCelestialData = () => {
+    setIsLoading(true);
+    fetch(`http://localhost:3000/space/get/${props.name.toLowerCase()}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Fetched data for ${props.name}:`, data);
+        setFetchedData(data);
+      })
+      .catch(error => {
+        console.error(`Error fetching data for ${props.name}:`, error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const toggleMusic = () => {
+    setIsPlayingMusic(!isPlayingMusic);
   };
 
   useEffect(() => {
@@ -91,8 +115,7 @@ const CelestialObject: React.FC<Props> = ({
 
   useEffect(() => {
     if (ringTexture) {
-      const uvs = ringGeometryRef.current.attributes.uv
-        .array as unknown as number[];
+      const uvs = ringGeometryRef.current.attributes.uv.array as unknown as number[];
       const phiSegments = ringGeometryRef.current.parameters.phiSegments;
       const thetaSegments = ringGeometryRef.current.parameters.thetaSegments;
 
@@ -107,13 +130,21 @@ const CelestialObject: React.FC<Props> = ({
 
   useEffect(() => {
     if (pointLightRef.current) {
-      pointLightRef.current.shadow.camera.far = 1500000; // approximately the farthest toon orbit radius
+      pointLightRef.current.shadow.camera.far = 1500000;
     }
 
     if (directionalLightRef.current) {
-      directionalLightRef.current.shadow.camera.far = 6000000000; // approximately the farthest real orbit radius
+      directionalLightRef.current.shadow.camera.far = 6000000000;
     }
   }, [userSettings.realisticScale]);
+
+  useEffect(() => {
+    if (userSettings.focusedObject === props.name) {
+      fetchCelestialData();
+    } else {
+      setIsPlayingMusic(false);
+    }
+  }, [userSettings.focusedObject, props.name]);
 
   useFrame(() => {
     bodyRef.current.getWorldPosition(currentBodyPositionVectorRef.current);
@@ -139,7 +170,6 @@ const CelestialObject: React.FC<Props> = ({
         cameraPosition.z =
           nextBodyPositionVectorRef.current.z + bodyFocusVectorRef.current.z;
 
-        // Prevent the camera from being inside the bodies.
         controlsRef.current.minDistance =
           props.radius + cameraRef.current.near!;
 
@@ -205,6 +235,24 @@ const CelestialObject: React.FC<Props> = ({
                 <p style={{ color: 'white' }} onClick={focusObject}>
                   {props.name}
                 </p>
+                {isLoading && <p style={{ color: 'white' }}>Loading...</p>}
+                {fetchedData && !isLoading && (
+                  <div style={{ color: 'white', fontSize: '0.8em' }}>
+                    <p>Tempo: {fetchedData.tempo} BPM</p>
+                    <p>Scale: {fetchedData.musicRange.join(', ')}</p>
+                    <button onClick={toggleMusic} style={{ marginTop: '5px' }}>
+                      {isPlayingMusic ? 'Stop Music' : 'Play Music'}
+                    </button>
+                    {userSettings.focusedObject === props.name && (
+                      <RandomMelodyPlayer
+                      tempo={fetchedData.tempo}
+                      synthToUse={fetchedData.synthToUse}
+                      musicRange={fetchedData.musicRange}
+                        isPlaying={isPlayingMusic}
+                      />
+                    )}
+                  </div>
+                )}
               </Html>
             )}
             <object3D
