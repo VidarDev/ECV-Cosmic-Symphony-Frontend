@@ -39,7 +39,7 @@ export default function AudioVisualizer({
         const bufferLength = analyserRef.current.size;
         const dataArray = analyserRef.current.getValue() as Float32Array;
 
-        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillStyle = 'rgb(15, 23, 42)';
         ctx.fillRect(0, 0, width, height);
 
         const centerX = width / 2;
@@ -113,11 +113,6 @@ export default function AudioVisualizer({
   }, [isPlaying, planetColor]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      width="120"
-      height="120"
-      className="rounded-md absolute bottom-4 right-4"
-    />
+    <canvas ref={canvasRef} width="120" height="120" className="rounded-full" />
   );
 }

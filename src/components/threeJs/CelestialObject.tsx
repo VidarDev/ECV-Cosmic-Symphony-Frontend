@@ -1,4 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import OrbitPath from '@/components/threeJs/OrbitPath';
+import { celestialObject } from '@/types/celestialObject';
+import useStore from '@/hooks/useStore';
 import { useFrame } from '@react-three/fiber';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { Html, useTexture } from '@react-three/drei';
@@ -12,9 +15,6 @@ import {
   RingGeometry,
 } from 'three';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import OrbitPath from '@/components/threeJs/OrbitPath';
-import { celestialObject } from '@/types/celestialObject';
-import useStore from '@/hooks/useStore';
 import * as THREE from 'three';
 
 type Props = {
@@ -198,11 +198,24 @@ const CelestialObject: React.FC<Props> = ({
             )}
             {userSettings.showLabels && (
               <Html
-                position={[0, props.radius * 1.5, 0]}
+                position={[0, props.radius * 2.5, 0]}
                 center
                 wrapperClass="canvas-object"
               >
-                <p style={{ color: 'white' }} onClick={focusObject}>
+                <p
+                  style={{
+                    borderRadius: '5px',
+                    background: 'rgba(129, 186, 255, 0.09)',
+                    padding: '12px 10px',
+                    backdropFilter: 'blur(12.5px)',
+                    fontFamily: 'Poppins',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    color: 'white',
+                    textAlign: 'center',
+                  }}
+                  onClick={focusObject}
+                >
                   {props.name}
                 </p>
               </Html>

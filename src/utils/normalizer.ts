@@ -10,14 +10,14 @@ export const getNormalizedCelestialObject = (
 ): celestialObject => {
   const normalizedObject: celestialObject = {
     ...object,
-    radius: object.radius / 4,
+    radius: object.radius / 2,
     rotationPeriod: object.rotationPeriod
       ? 24 / object.rotationPeriod
       : object.rotationPeriod,
     obliquity: (object.obliquity * Math.PI) / 180,
     orbit: {
       ...object.orbit,
-      radius: object.orbit.radius / 4,
+      radius: object.orbit.radius / 2,
       rotationPeriod: object.orbit.rotationPeriod
         ? 1 / object.orbit.rotationPeriod
         : 0,
