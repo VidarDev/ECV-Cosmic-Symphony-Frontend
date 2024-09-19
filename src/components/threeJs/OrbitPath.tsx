@@ -1,41 +1,36 @@
 import { useEffect, useRef } from 'react';
-import {
-  Float32BufferAttribute,
-  Uint8BufferAttribute,
-  BufferGeometry,
-} from 'three';
-import useStore from '../../hooks/useStore';
+import { BufferGeometry, Float32BufferAttribute } from 'three';
 import { SOLAR_SYSTEM_SCENE } from '../../constants/scenes';
 
 type OrbitPathProps = {
   color: number;
   radius: number;
+  showOrbitPaths: boolean;
 };
 
-const OrbitPath: React.FC<OrbitPathProps> = ({ color, radius }) => {
-  // Stores
-  const userSettings = useStore((state) => state.userSettings);
-
-  // Refs
-  const orbitGeometryRef = useRef<BufferGeometry>(null!);
+const OrbitPath: React.FC<OrbitPathProps> = ({
+  color,
+  radius,
+  showOrbitPaths,
+}) => {
+  const orbitGeometryRef = useRef<BufferGeometry>(new BufferGeometry());
 
   useEffect(() => {
     const positions: number[] = [];
     const colors: number[] = [];
 
-    // extract rgb from hex color
-    const r = (color >>> 16) & 0xff;
-    const g = (color >>> 8) & 0xff;
-    const b = (color >>> 0) & 0xff;
+    const r = (color >>> 16) / 255;
+    const g = ((color >>> 8) & 0xff) / 255;
+    const b = (color & 0xff) / 255;
 
-    for (let i = 0; i < SOLAR_SYSTEM_SCENE.VERTEX_COUNT + 1; i++) {
+    for (let i = 0; i <= SOLAR_SYSTEM_SCENE.VERTEX_COUNT; i++) {
       const fraction = i / SOLAR_SYSTEM_SCENE.VERTEX_COUNT;
       const step = fraction * (Math.PI * 2);
 
       const x = radius * Math.cos(step);
       const z = radius * Math.sin(step);
       positions.push(x, 0, z);
-      colors.push(r, g, b, (1 - fraction) * 255);
+      colors.push(r, g, b, 1 - fraction);
     }
 
     orbitGeometryRef.current.setAttribute(
@@ -44,18 +39,14 @@ const OrbitPath: React.FC<OrbitPathProps> = ({ color, radius }) => {
     );
     orbitGeometryRef.current.setAttribute(
       'color',
-      new Uint8BufferAttribute(colors, 4, true)
+      new Float32BufferAttribute(colors, 4)
     );
   }, [color, radius]);
 
   return (
     <line>
       <bufferGeometry ref={orbitGeometryRef} />
-      <lineBasicMaterial
-        visible={userSettings.showOrbitPaths}
-        vertexColors
-        transparent
-      />
+      <lineBasicMaterial visible={showOrbitPaths} vertexColors transparent />
     </line>
   );
 };

@@ -16,7 +16,7 @@ export const USER_SETTINGS_DEFAULT: userSettings = {
   showDebugMode: false,
   realisticScale: true,
   resolutionQuality: 'Medium',
-  timeSpeedModifier: 1,
+  timeSpeedModifier: 0.5,
   focusedObject: 'Sun',
   focusedColor: 0xffffff,
 };

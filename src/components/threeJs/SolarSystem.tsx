@@ -1,15 +1,16 @@
+import * as THREE from 'three';
 import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import {
+  PerspectiveCamera,
   Environment,
   OrbitControls,
-  PerspectiveCamera,
 } from '@react-three/drei';
-import PostProcessingEffects from './utils/PostProcessingEffects';
-import Controls from './utils/Controls';
 import useStore from '../../hooks/useStore';
 import { SOLAR_SYSTEM_SCENE } from '../../constants/scenes';
-import { PerspectiveCameraProps, useFrame } from '@react-three/fiber';
+import PostProcessingEffects from './utils/PostProcessingEffects';
+import Controls from './utils/Controls';
 import CelestialObject from './CelestialObject';
 import { Perf } from 'r3f-perf';
 
@@ -20,7 +21,7 @@ const SolarSystem: React.FC = () => {
   const updateAppSetting = useStore((state) => state.updateAppSetting);
 
   // Refs
-  const cameraRef = useRef<PerspectiveCameraProps>(null!);
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
   const controlsRef = useRef<OrbitControlsImpl>(null!);
 
   useFrame(() => {
@@ -37,6 +38,13 @@ const SolarSystem: React.FC = () => {
       updateAppSetting('cameraDistance', cameraDistance);
     }
   });
+
+  const resolution =
+    userSettings.resolutionQuality === 'High'
+      ? 4096
+      : userSettings.resolutionQuality === 'Medium'
+        ? 2048
+        : 1024;
 
   return (
     <>
@@ -57,14 +65,8 @@ const SolarSystem: React.FC = () => {
       <Environment
         background
         files={'/textures/stars.jpg'}
-        backgroundRotation={[0, SOLAR_SYSTEM_SCENE.UNIVERS_TILT, 0]}
-        resolution={
-          userSettings.resolutionQuality === 'High'
-            ? 4096
-            : userSettings.resolutionQuality === 'Medium'
-              ? 2048
-              : 1024
-        }
+        backgroundRotation={[SOLAR_SYSTEM_SCENE.UNIVERS_TILT, 0, 0]}
+        resolution={resolution}
       />
       {/* Light */}
       <ambientLight

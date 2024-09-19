@@ -10,34 +10,37 @@ const PostProcessingEffects: React.FC = () => {
   const userSettings = useStore((state) => state.userSettings);
   const componentRefs = useStore((state) => state.componentRefs);
 
-  if (!componentRefs.lightSourceMeshRef?.current) return null;
+  const lightSourceMesh = componentRefs.lightSourceMeshRef?.current;
+  if (!lightSourceMesh) return null;
+
+  const renderHighQuality = () => (
+    <EffectComposer>
+      <GodRays
+        blur={true}
+        decay={0.8}
+        samples={30}
+        density={0.99}
+        sun={lightSourceMesh}
+      />
+    </EffectComposer>
+  );
+
+  const renderMediumQuality = () => (
+    <EffectComposer>
+      <SelectiveBloom
+        selection={[lightSourceMesh]}
+        luminanceThreshold={0}
+        luminanceSmoothing={0.9}
+        height={400}
+      />
+    </EffectComposer>
+  );
 
   switch (userSettings.resolutionQuality) {
     case 'High':
-      return (
-        <EffectComposer>
-          <GodRays
-            blur={true}
-            decay={0.9}
-            samples={userSettings.realisticScale ? 30 : 120}
-            density={0.98}
-            sun={componentRefs.lightSourceMeshRef.current}
-          />
-        </EffectComposer>
-      );
-
+      return renderHighQuality();
     case 'Medium':
-      return (
-        <EffectComposer>
-          <SelectiveBloom
-            selection={componentRefs.lightSourceMeshRef.current}
-            luminanceThreshold={0}
-            luminanceSmoothing={0.9}
-            height={300}
-          />
-        </EffectComposer>
-      );
-
+      return renderMediumQuality();
     default:
       return null;
   }

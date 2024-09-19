@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { PerspectiveCameraProps, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { Html, useTexture } from '@react-three/drei';
 import {
@@ -15,9 +15,10 @@ import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import OrbitPath from './OrbitPath';
 import { celestialObject } from '../../types/celestialObject';
 import useStore from '../../hooks/useStore';
+import * as THREE from 'three';
 
 type Props = {
-  cameraRef: MutableRefObject<PerspectiveCameraProps>;
+  cameraRef: MutableRefObject<THREE.PerspectiveCamera>;
   controlsRef: MutableRefObject<OrbitControlsImpl>;
 } & celestialObject;
 
@@ -166,7 +167,11 @@ const CelestialObject: React.FC<Props> = ({
   return (
     <object3D rotation={[0, 0, props.orbit.inclination]}>
       <object3D ref={bodyOrbitRef}>
-        <OrbitPath color={props.orbit.color} radius={props.orbit.radius} />
+        <OrbitPath
+          color={props.orbit.color}
+          radius={props.orbit.radius}
+          showOrbitPaths={userSettings.showOrbitPaths}
+        />
         <object3D position={[props.orbit.radius, 0, 0]}>
           <object3D
             ref={bodyPositionRef}
@@ -222,6 +227,7 @@ const CelestialObject: React.FC<Props> = ({
                   castShadow={!props.isStar}
                   receiveShadow={!props.isStar}
                   onClick={focusObject}
+                  frustumCulled={true}
                 >
                   <sphereGeometry
                     args={[props.radius, divisionQuality * 2, divisionQuality]}

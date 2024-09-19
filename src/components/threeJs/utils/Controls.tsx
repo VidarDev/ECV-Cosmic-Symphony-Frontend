@@ -8,6 +8,11 @@ const Controls: React.FC = () => {
   const updateUserSetting = useStore((state) => state.updateUserSetting);
   const resetUserSettings = useStore((state) => state.resetUserSettings);
 
+  const handleFocus = (object: string) => {
+    updateUserSetting('focusedObject', object);
+    updateAppSetting('focusingObject', true);
+  };
+
   // GUI
   useControls({
     'Resolution quality': {
@@ -23,10 +28,18 @@ const Controls: React.FC = () => {
       value: userSettings.showDebugMode,
       onChange: (value) => updateUserSetting('showDebugMode', value),
     },
+    'Show labels': {
+      value: userSettings.showLabels,
+      onChange: (value) => updateUserSetting('showLabels', value),
+    },
+    'Show orbits': {
+      value: userSettings.showOrbitPaths,
+      onChange: (value) => updateUserSetting('showOrbitPaths', value),
+    },
     'Simulation speed': {
       value: userSettings.timeSpeedModifier * 1000,
       min: 0,
-      max: 1000,
+      max: 750,
       onChange: (value) => updateUserSetting('timeSpeedModifier', value / 1000),
     },
     Reset: button(() => {
@@ -34,15 +47,16 @@ const Controls: React.FC = () => {
     }),
   });
 
-  useControls('Celestials Objects', {
-    Sun: button(() => {
-      updateUserSetting('focusedObject', 'Sun');
-      updateAppSetting('focusingObject', true);
-    }),
-    Earth: button(() => {
-      updateUserSetting('focusedObject', 'Earth');
-      updateAppSetting('focusingObject', true);
-    }),
+  useControls('Celestial Objects', {
+    Sun: button(() => handleFocus('Sun')),
+    Mercury: button(() => handleFocus('Mercury')),
+    Venus: button(() => handleFocus('Venus')),
+    Earth: button(() => handleFocus('Earth')),
+    Mars: button(() => handleFocus('Mars')),
+    Jupiter: button(() => handleFocus('Jupiter')),
+    Saturn: button(() => handleFocus('Saturn')),
+    Uranus: button(() => handleFocus('Uranus')),
+    Neptune: button(() => handleFocus('Neptune')),
   });
 
   return null;
