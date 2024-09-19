@@ -22,14 +22,17 @@ const App = () => {
 
   return (
     <>
-      <header id="header">
+      <header id="header" className="z-10 w-screen absolute m-0 text-white">
         <h1>
           {userSettings.resolutionQuality},{' '}
           {userSettings.showDebugMode.toString()}, {userSettings.focusedObject},{' '}
           {distance} km
         </h1>
       </header>
-      <div id="canvas-scene">
+      <div
+        id="canvas-scene"
+        className="z-0 fixed top-0 left-0 w-full h-full overflow-hidden"
+      >
         <Canvas
           shadows={false}
           dpr={dpr}
