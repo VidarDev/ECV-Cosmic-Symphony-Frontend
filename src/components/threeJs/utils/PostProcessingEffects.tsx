@@ -17,10 +17,10 @@ const PostProcessingEffects: React.FC = () => {
       return (
         <EffectComposer>
           <GodRays
-            blur
+            blur={true}
             decay={0.9}
-            samples={120}
-            density={0.96}
+            samples={userSettings.realisticScale ? 30 : 120}
+            density={0.98}
             sun={componentRefs.lightSourceMeshRef.current}
           />
         </EffectComposer>
@@ -30,9 +30,10 @@ const PostProcessingEffects: React.FC = () => {
       return (
         <EffectComposer>
           <SelectiveBloom
-            selection={[componentRefs.lightSourceMeshRef.current]}
+            selection={componentRefs.lightSourceMeshRef.current}
             luminanceThreshold={0}
-            luminanceSmoothing={0.8}
+            luminanceSmoothing={0.9}
+            height={300}
           />
         </EffectComposer>
       );

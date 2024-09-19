@@ -22,7 +22,7 @@ type StoreState = {
     key: K,
     value: userSettings[K]
   ) => void;
-  updateRefSetting: <K extends keyof componentRefs>(
+  updateComponentRefSetting: <K extends keyof componentRefs>(
     key: K,
     value: componentRefs[K]
   ) => void;
@@ -52,7 +52,7 @@ const useStore = create<StoreState>()(
           userSettings: { ...state.userSettings, [key]: value },
         })),
 
-      updateRefSetting: <K extends keyof componentRefs>(
+      updateComponentRefSetting: <K extends keyof componentRefs>(
         key: K,
         value: componentRefs[K]
       ) =>

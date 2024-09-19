@@ -6,6 +6,7 @@ import useStore from './hooks/useStore';
 const App = () => {
   // Stores
   const userSettings = useStore((state) => state.userSettings);
+  const appSettings = useStore((state) => state.appSettings);
 
   // Pixel ratio
   const dpr =
@@ -15,12 +16,17 @@ const App = () => {
         ? window.devicePixelRatio / 1.5
         : window.devicePixelRatio / 2.5;
 
+  const distance = appSettings.cameraDistance.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  });
+
   return (
     <>
       <header id="header">
         <h1>
           {userSettings.resolutionQuality},{' '}
-          {userSettings.showDebugMode.toString()}, {userSettings.focusedObject},
+          {userSettings.showDebugMode.toString()}, {userSettings.focusedObject},{' '}
+          {distance} km
         </h1>
       </header>
       <div id="canvas-scene">

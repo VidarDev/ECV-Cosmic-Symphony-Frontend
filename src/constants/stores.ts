@@ -14,6 +14,7 @@ export const USER_SETTINGS_DEFAULT: userSettings = {
   showLabels: true,
   showOrbitPaths: true,
   showDebugMode: false,
+  realisticScale: true,
   resolutionQuality: 'Medium',
   timeSpeedModifier: 1,
   focusedObject: 'Sun',
