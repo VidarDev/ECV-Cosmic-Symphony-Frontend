@@ -1,6 +1,6 @@
+import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
 import { useEffect, useRef } from 'react';
 import { BufferGeometry, Float32BufferAttribute } from 'three';
-import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
 
 type OrbitPathProps = {
   color: number;

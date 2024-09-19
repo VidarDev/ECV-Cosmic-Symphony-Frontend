@@ -1,12 +1,18 @@
+import HomePage from '@/components/HomePage';
+import Loading from '@/components/Loading';
 import { Canvas } from '@react-three/fiber';
 import SolarSystem from '@/components/threeJs/SolarSystem';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import useStore from '@/hooks/useStore';
+import Header from './components/overlay/Header';
 
 const App = () => {
   // Stores
   const userSettings = useStore((state) => state.userSettings);
-  const appSettings = useStore((state) => state.appSettings);
+
+  // States
+  const [isAppOpened, setIsAppOpened] = useState(false);
+  const [isDomLoaded, setIsDomLoaded] = useState(false);
 
   // Pixel ratio
   const dpr =
@@ -16,37 +22,47 @@ const App = () => {
         ? window.devicePixelRatio / 1.5
         : window.devicePixelRatio / 2.5;
 
-  const distance = appSettings.cameraDistance.toLocaleString(undefined, {
-    maximumFractionDigits: 0,
-  });
+  const openApp = () => {
+    setIsAppOpened(true);
+  };
+
+  useEffect(() => {
+    setIsDomLoaded(true);
+  }, []);
+
+  if (!isDomLoaded) {
+    return (
+      <div className="z-0 fixed top-0 left-0 w-full h-full overflow-hidden">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (!isAppOpened) {
+    return <HomePage onAction={openApp} />;
+  }
 
   return (
     <>
-      <header id="header" className="z-10 w-screen absolute m-0 text-white">
-        <h1>
-          {userSettings.resolutionQuality},{' '}
-          {userSettings.showDebugMode.toString()}, {userSettings.focusedObject},{' '}
-          {distance} km
-        </h1>
-      </header>
       <div
         id="canvas-scene"
         className="z-0 fixed top-0 left-0 w-full h-full overflow-hidden"
       >
-        <Canvas
-          shadows={false}
-          dpr={dpr}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#030302',
-          }}
-        >
-          <Suspense fallback={null}>
+        <Suspense fallback={<Loading />}>
+          <Header />
+          <Canvas
+            shadows={false}
+            dpr={dpr}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#030302',
+            }}
+          >
             <SolarSystem />
-          </Suspense>
-        </Canvas>
+          </Canvas>
+        </Suspense>
       </div>
     </>
   );

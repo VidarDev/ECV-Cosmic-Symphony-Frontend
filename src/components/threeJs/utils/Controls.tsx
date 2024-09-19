@@ -1,5 +1,5 @@
-import { useControls, button } from 'leva';
 import useStore from '@/hooks/useStore';
+import { useControls, button } from 'leva';
 
 const Controls: React.FC = () => {
   // Stores

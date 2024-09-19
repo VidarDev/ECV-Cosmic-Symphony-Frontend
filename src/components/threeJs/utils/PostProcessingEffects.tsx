@@ -1,11 +1,11 @@
+import useStore from '@/hooks/useStore';
+import { componentRefs } from '@/types/componentRefs';
 import React, { useMemo, useCallback } from 'react';
 import {
   EffectComposer,
   GodRays,
   SelectiveBloom,
 } from '@react-three/postprocessing';
-import useStore from '@/hooks/useStore';
-import { componentRefs } from '@/types/componentRefs';
 import { BlendFunction } from 'postprocessing';
 
 type PostProcessingEffectsProps = componentRefs;

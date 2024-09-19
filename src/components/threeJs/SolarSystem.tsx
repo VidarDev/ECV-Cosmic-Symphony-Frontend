@@ -1,3 +1,8 @@
+import useStore from '@/hooks/useStore';
+import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
+import PostProcessingEffects from '@/components/threeJs/utils/PostProcessingEffects';
+import Controls from '@/components/threeJs/utils/Controls';
+import CelestialObject from '@/components/threeJs/CelestialObject';
 import * as THREE from 'three';
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
@@ -7,11 +12,6 @@ import {
   Environment,
   OrbitControls,
 } from '@react-three/drei';
-import useStore from '@/hooks/useStore';
-import { SOLAR_SYSTEM_SCENE } from '@/constants/scenes';
-import PostProcessingEffects from '@/components/threeJs/utils/PostProcessingEffects';
-import Controls from '@/components/threeJs/utils/Controls';
-import CelestialObject from '@/components/threeJs/CelestialObject';
 import { Perf } from 'r3f-perf';
 
 const SolarSystem: React.FC = () => {
@@ -69,7 +69,7 @@ const SolarSystem: React.FC = () => {
         resolution={resolution}
       />
       {/* Light */}
-      <ambientLight color={0xffffff} intensity={0.2} />
+      <ambientLight color={0xffffff} intensity={0.05} />
       {/* Celestial objects */}
       <CelestialObject
         {...appSettings.solarSystemData}
