@@ -6,7 +6,7 @@
 
 ## Description
 
-Spacecraft is a mobile app that lets users buy starships to explore the Galaxy. They can browse a list of all the starships available, see the details and price for each one.
+Cosmic symphony is a 3D interface allowing you to hear and visualize the planets of our solar system
 
 ## Requirements
 
