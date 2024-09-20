@@ -49,9 +49,7 @@ const ActionsPanels: React.FC = () => {
   };
 
   const apiUrl = import.meta.env.VITE_API_URL;
-  const fullUrl = `${apiUrl}/space/get/${userSettings.focusedObject.toLowerCase()}`;
-  console.log('fullUrl:', fullUrl);
-  console.log('apiUrl:', apiUrl);
+  const fullUrl = `${apiUrl}space/get/${userSettings.focusedObject.toLowerCase()}`;
 
   const fetchCelestialData = () => {
     fetch(fullUrl)
