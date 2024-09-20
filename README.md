@@ -1,50 +1,47 @@
-# React + TypeScript + Vite
+# Cosmic Symphony
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+| Update dependencies | NVM Version |
+| :------------------ | :---------- |
+| 20 September 2024   | `20`        |
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Spacecraft is a mobile app that lets users buy starships to explore the Galaxy. They can browse a list of all the starships available, see the details and price for each one.
 
-## Expanding the ESLint configuration
+## Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [NVM](https://github.com/nvm-sh/nvm) (Node)
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+To run the project, use the package manager [npm](https://www.npmjs.com/) to run it locally.
+Run the command:
+
+```
+npm i
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+And build/dev the project ;
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+npm run dev
+```
+
+## How to run in local ?
+
+Run the command:
+
+```
+npm run dev
+```
+
+# Dependencies package
+
+- [@react-three/fiber](https://github.com/pmndrs/react-three-fiber)
+- [@react-three/drei](https://github.com/pmndrs/drei)
+- [Leva GUI](https://github.com/pmndrs/leva)
+- [R3F-Perf](https://github.com/utsuboco/r3f-perf)
+- [zustand](https://github.com/pmndrs/zustand)
+- [shadcn/ui](https://github.com/shadcn-ui/ui)
+- [Tone JS](https://tonejs.github.io/)
+- [Tailwind](https://github.com/tailwindlabs/tailwindcss)

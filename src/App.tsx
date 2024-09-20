@@ -7,7 +7,7 @@ import useStore from '@/hooks/useStore';
 import Header from '@/components/overlay/Header';
 import ScaleInfo from '@/components/overlay/ScaleInfo';
 import ActionsPanels from '@/components/overlay/ActionsPanels';
-import QualitySetting from '@/components/overlay/qualitySetting';
+import QualitySetting from '@/components/overlay/QualitySetting';
 
 const App = () => {
   // Stores

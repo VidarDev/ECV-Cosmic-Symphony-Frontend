@@ -7,6 +7,7 @@ import {
   SelectiveBloom,
 } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
+import { Mesh } from 'three';
 
 type PostProcessingEffectsProps = componentRefs;
 
@@ -21,7 +22,7 @@ const PostProcessingEffects: React.FC<PostProcessingEffectsProps> = () => {
       lightSourceMesh ? (
         <EffectComposer>
           <GodRays
-            sun={lightSourceMesh as unknown as React.ReactElement}
+            sun={lightSourceMesh as Mesh}
             blendFunction={BlendFunction.SCREEN}
             samples={30}
             density={0.97}
