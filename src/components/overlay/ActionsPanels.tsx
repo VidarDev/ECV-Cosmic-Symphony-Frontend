@@ -48,10 +48,11 @@ const ActionsPanels: React.FC = () => {
     updateAppSetting('focusingObject', true);
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const fullUrl = `${apiUrl}/space/get/${userSettings.focusedObject.toLowerCase()}`;
+
   const fetchCelestialData = () => {
-    fetch(
-      `${import.meta.env.VITE_API_URL}/space/get/${userSettings.focusedObject.toLowerCase()}`
-    )
+    fetch(fullUrl)
       .then((response) => response.json())
       .then((data) => {
         setFetchedData(data);
