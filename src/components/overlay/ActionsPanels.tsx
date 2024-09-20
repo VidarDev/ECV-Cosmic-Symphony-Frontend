@@ -22,7 +22,6 @@ const ActionsPanels: React.FC = () => {
 
   // State
   const [fetchedData, setFetchedData] = useState<FetchedData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
   // Constants
@@ -50,7 +49,6 @@ const ActionsPanels: React.FC = () => {
   };
 
   const fetchCelestialData = () => {
-    setIsLoading(true);
     fetch(
       `${import.meta.env.VITE_API_URL}/space/get/${userSettings.focusedObject.toLowerCase()}`
     )
@@ -63,9 +61,6 @@ const ActionsPanels: React.FC = () => {
           `Error fetching data for ${userSettings.focusedObject}:`,
           error
         );
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
   };
 
